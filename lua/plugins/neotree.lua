@@ -8,6 +8,14 @@ return {
 	},
 	lazy = false,
 	config = function()
+		require("neo-tree").setup({
+			filesystem = {
+				filtered_items = {
+					visible = true,
+				},
+			},
+		})
+
 		vim.keymap.set('n', '<C-n>', '<Cmd>Neotree toggle<CR>', {})
-	end
+	end,
 }
