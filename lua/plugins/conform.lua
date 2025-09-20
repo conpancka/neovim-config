@@ -13,7 +13,8 @@ return {
 			formatters = {
 				clang_format = {
 					prepend_args = {
-						"-style={BasedOnStyle: LLVM, UseTab: Always, IndentWidth: 4, TabWidth: 4}",
+						-- Use LLVM style as base, tabs, 4-space width, and do not sort includes
+						"-style={BasedOnStyle: LLVM, UseTab: Always, IndentWidth: 4, TabWidth: 4, SortIncludes: false}"
 					},
 				},
 				stylua = {
