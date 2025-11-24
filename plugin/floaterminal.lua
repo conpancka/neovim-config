@@ -17,7 +17,7 @@ local function create_floating_window(opts)
 	local row = math.floor((vim.o.lines - height) / 2)
 
 	-- Create a buffer
-	 buf = nil
+	buf = nil
 	if vim.api.nvim_buf_is_valid(opts.buf) then
 		buf = opts.buf
 	else
@@ -53,4 +53,4 @@ local toggle_terminal = function()
 end
 
 vim.api.nvim_create_user_command("Floaterminal", toggle_terminal, {})
-vim.keymap.set({ "n", "t" }, "<leader>tt", toggle_terminal)
+vim.keymap.set({ "n", "t" }, "<leader>tt", toggle_terminal, { desc = "Toggle Floaterminal" })
