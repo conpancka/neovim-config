@@ -5,7 +5,6 @@ vim.cmd("set shiftwidth=4")
 vim.g.mapleader = " "
 vim.cmd("set number")
 vim.cmd("set relativenumber")
-vim.o.guifont = "JetBrainsMono Nerd Font"
 vim.o.breakindent = true
 vim.o.undofile = true
 vim.o.ignorecase = true
@@ -21,6 +20,7 @@ vim.o.inccommand = 'split'
 vim.o.cursorline = true
 vim.o.scrolloff = 10
 vim.o.confirm = true
+vim.diagnostic.config({ virtual_text = true })
 if vim.fn.has("win32") == 1 then
 	vim.o.shell = vim.fn.executable('pwsh') == 1 and 'pwsh' or 'powershell'
 end

@@ -52,5 +52,21 @@ local toggle_terminal = function()
 	end
 end
 
+local function run_build()
+	if not vim.api.nvim_win_is_valid(state.floating.win) then
+		state.floating = create_floating_window { buf = state.floating.buf }
+		vim.cmd.terminal()
+	else
+		vim.api.nvim_set_current_win(state.floating.win)
+	end
+
+	vim.api.nvim_chan_send(
+		vim.b.terminal_job_id,
+		"./build.sh\n"
+	)
+end
+
+vim.keymap.set({ "n", "t" }, "<leader>tb", run_build, { desc = "Run ./build.sh in Floaterminal" })
+
 vim.api.nvim_create_user_command("Floaterminal", toggle_terminal, {})
 vim.keymap.set({ "n", "t" }, "<leader>tt", toggle_terminal, { desc = "Toggle Floaterminal" })
