@@ -7,6 +7,7 @@ return {
 				lua = { "stylua" },
 				c = { "clang_format" },
 				cpp = { "clang_format" },
+				rust = { "rustfmt" },
 				["_"] = { "trim_whitespace" },
 			},
 

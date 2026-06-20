@@ -21,6 +21,12 @@ vim.o.cursorline = true
 vim.o.scrolloff = 10
 vim.o.confirm = true
 vim.diagnostic.config({ virtual_text = true })
+
+-- clipboard yanking
+vim.keymap.set({ 'n', 'v' }, '<leader>y', '\"+y', { desc = 'Yank to clipboard' })
+vim.keymap.set({ 'n', 'v' }, '<leader>p', '\"+p', { desc = 'Paste from clipboard' })
+
+-- windows stuff
 if vim.fn.has("win32") == 1 then
 	vim.o.shell = vim.fn.executable('pwsh') == 1 and 'pwsh' or 'powershell'
 end

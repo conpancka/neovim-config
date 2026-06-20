@@ -12,11 +12,11 @@ local function create_floating_window(opts)
 	local width = opts.width or math.floor(vim.o.columns * 0.8)
 	local height = opts.height or math.floor(vim.o.lines * 0.8)
 
-	-- Calculate the position to center the window
+	-- calculate the position to center the window
 	local col = math.floor((vim.o.columns - width) / 2)
 	local row = math.floor((vim.o.lines - height) / 2)
 
-	-- Create a buffer
+	-- create a buffer
 	buf = nil
 	if vim.api.nvim_buf_is_valid(opts.buf) then
 		buf = opts.buf
@@ -24,18 +24,18 @@ local function create_floating_window(opts)
 		buf = vim.api.nvim_create_buf(false, true) -- No file, scratch buffer
 	end
 
-	-- Define window configuration
+	-- define window configuration
 	local win_config = {
 		relative = "editor",
 		width = width,
 		height = height,
 		col = col,
 		row = row,
-		style = "minimal", -- No borders or extra UI elements
-		border = "rounded",
+		style = "minimal", -- no borders or extra ui elements
+		border = "shadow"
 	}
 
-	-- Create the floating window
+	-- create the floating window
 	local win = vim.api.nvim_open_win(buf, true, win_config)
 
 	return { buf = buf, win = win }
@@ -51,22 +51,6 @@ local toggle_terminal = function()
 		vim.api.nvim_win_hide(state.floating.win)
 	end
 end
-
-local function run_build()
-	if not vim.api.nvim_win_is_valid(state.floating.win) then
-		state.floating = create_floating_window { buf = state.floating.buf }
-		vim.cmd.terminal()
-	else
-		vim.api.nvim_set_current_win(state.floating.win)
-	end
-
-	vim.api.nvim_chan_send(
-		vim.b.terminal_job_id,
-		"./build.sh\n"
-	)
-end
-
-vim.keymap.set({ "n", "t" }, "<leader>tb", run_build, { desc = "Run ./build.sh in Floaterminal" })
 
 vim.api.nvim_create_user_command("Floaterminal", toggle_terminal, {})
 vim.keymap.set({ "n", "t" }, "<leader>tt", toggle_terminal, { desc = "Toggle Floaterminal" })

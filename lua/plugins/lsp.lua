@@ -3,33 +3,53 @@ return {
 		"williamboman/mason.nvim",
 		opts = {},
 	},
+
 	{
 		"williamboman/mason-lspconfig.nvim",
 		dependencies = { "neovim/nvim-lspconfig" },
 		opts = {
-			ensure_installed = { "lua_ls", "clangd", "rust_analyzer" },
+			ensure_installed = {
+				-- add new here
+				"lua_ls",
+				"clangd",
+				"zls",
+				"marksman",
+				"rust_analyzer",
+			},
 			automatic_installation = true,
-		}
+		},
 	},
+
 	{
 		"neovim/nvim-lspconfig",
-		dependencies = {
-			"folke/lazydev.nvim",
-			ft = "lua", -- only load on lua files
-			opts = {
-				library = {
-					{ path = "${3rd}/luv/library", words = { "vim%.uv" } }
-				}
-			}
-		},
 		config = function()
 			local capabilities = require("blink.cmp").get_lsp_capabilities()
-			local lspconfig = require("lspconfig")
-			lspconfig.lua_ls.setup { capabilities = capabilities }
-			lspconfig.clangd.setup { capabilities = capabilities }
 
-			vim.keymap.set('n', 'gd', vim.lsp.buf.definition, {})
-			vim.keymap.set({ 'n', 'v' }, '<leader>ca', vim.lsp.buf.code_action, {})
-		end
-	}
+			local mlsp = require("mason-lspconfig")
+			local servers = mlsp.get_installed_servers()
+
+			for _, server in ipairs(servers) do
+				-- default config for every server
+				vim.lsp.config(server, {
+					capabilities = capabilities,
+				})
+			end
+
+			-- for lua_ls
+			vim.lsp.config("lua_ls", {
+				capabilities = capabilities,
+				settings = {
+					Lua = {
+						diagnostics = { globals = { "vim" } },
+					},
+				},
+			})
+
+			vim.lsp.enable(servers)
+
+			-- keymaps
+			vim.keymap.set("n", "gd", vim.lsp.buf.definition, {})
+			vim.keymap.set({ "n", "v" }, "<leader>ca", vim.lsp.buf.code_action, {})
+		end,
+	},
 }
