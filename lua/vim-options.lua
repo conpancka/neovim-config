@@ -21,6 +21,7 @@ vim.o.cursorline = true
 vim.o.scrolloff = 10
 vim.o.confirm = true
 vim.diagnostic.config({ virtual_text = true })
+vim.g.have_nerd_font = true
 
 -- clipboard yanking
 vim.keymap.set({ 'n', 'v' }, '<leader>y', '\"+y', { desc = 'Yank to clipboard' })
