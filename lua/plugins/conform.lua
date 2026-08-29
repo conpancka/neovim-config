@@ -1,6 +1,6 @@
 return {
 	"stevearc/conform.nvim",
-	event = { "BufReadPre", "BufNewFile" },
+	event = "BufWritePre",
 	config = function()
 		require("conform").setup({
 			formatters_by_ft = {
@@ -8,6 +8,7 @@ return {
 				c = { "clang_format" },
 				cpp = { "clang_format" },
 				rust = { "rustfmt" },
+				zig = { "zigfmt" },
 				["_"] = { "trim_whitespace" },
 			},
 
